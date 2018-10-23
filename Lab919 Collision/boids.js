@@ -8,7 +8,7 @@ function Boid(location, velocity, radius, col){
   this.loc = location;
   this.vel = velocity;
   this.rad = radius;
-  this.col = col;
+  this.clr = col;
   this.acc = createVector(.1,0);
 
   // This function calls other functions
@@ -20,34 +20,39 @@ function Boid(location, velocity, radius, col){
   //This function changes the location of the Ball
   // By adding speed to x and y
   this.update = function(){
-
-
-  if(this !== attr){
-    var d = this.loc.dist(attr.loc)
-    lerp(start, stop, amt)
-    var mouseLoc = createVector(mouseX, mouseY);
-    this.loc = p5.Vector.lerp(this.loc, mouseLoc, .09)
+    var d = this.loc.dist(chaser.loc)
+    //lerp(start, stop, amt)
+    if(d < 280){
+      var steeringForce = p5.Vector.sub( this.loc, chaser.loc);
+      steeringForce.normalize();
+      steeringForce.mult(0.05);
+      this.vel.add(steeringForce);
     }
     if(d < 80){
-      var steeringForce = p5.Vector.sub( this.loc, attr.loc);
+      var steeringForce = p5.Vector.sub( this.loc, chaser.loc);
       steeringForce.normalize();
       steeringForce.mult(0.5);
       this.vel.add(steeringForce);
     }
+    this.vel.limit(5);
+    this.loc.add(this.vel);
+  }
 
+
+  this.render = function(){
+    push() // push or save the current coord system into the stack
+      translate(this.loc.x, this.loc.y);
+      rotate(this.vel.heading()+PI/2);
+
+      var n = 9;
+         fill(this.clr)
+      // ellipse(0,5,2*n,2*n);
+        //fill(186, 155, 3)
+      //triangle(-n, 0, n, 0, 0, -3*n);
+      quad(-n, 8, 0, 0, n, 8, 0, -3*n);
+    pop()  //  pop or restore the coordianate system from the stack
 
   }
-  this.vel.limit(5);
-  this.loc.add(this.vel);
-  push() // push or save the current coord system into the stack
-      translate(this.loc.x, this.loc.y);
-      rotate(someAngle);
-      triangle(-5, 0, 5, 0, 0, -15);
-  pop()  //  pop or restore the coordianate system from the stack
-}
-
-
-
 
   //checkEdges reverses the speed when the ball touches an edge//
   this.checkEdges = function(){
@@ -57,13 +62,12 @@ function Boid(location, velocity, radius, col){
     if(this.loc.y > height) this.vel.y = -this.vel.y;
   }
 
-  this.render = function(){
-    fill(this.col);
-    ellipse(this.loc.x, this.loc.y, this.rad, this.rad);
-    //returns the distance between two objects
-var dist = vector1.dist(vector2);
-  }
+  // this.render = function(){
+  //   fill(this.clr);
+  //   ellipse(this.loc.x, this.loc.y, this.rad, this.rad);
+  //   //returns the distance between two objects
+  // }
 
 
 
-//  end of constructor
+}//  end of constructor

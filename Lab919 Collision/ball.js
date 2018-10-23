@@ -4,39 +4,35 @@
 **  Aug 20, 2018
 */
 
-function Ball(locX, locY, rad, col){
+function Ball(loc, rad, col){
   // Instance variables
-   this.locX = locX;
-   this.locY = locY;
-   this.speedX = random(-3.0, 4.0);
-   this.speedY = random(-4.0, 50.0);
-   this.rad = rad;
-   this.col = col;
+  this.loc = loc;
+  this.rad = rad;
+  this.col = col;
   // This function calls other functions
   this.run = function(){
-    this.checkEdges();
     this.update();
     this.render();
   }
   // This function changes the location of the ball
   // by adding speed to x and y
-   this.update = function(){
-      this.locX = this.locX + this.speedX;
-      this.locY = this.locY + this.speedY;
-   }
+  this.update = function(){
+    var mouseLoc = createVector(mouseX, mouseY);
+    this.loc = p5.Vector.lerp(this.loc, mouseLoc, .09);
+  }
 
-   //checkEdges() reverses speed when the ball touches an edge
-   this.checkEdges = function(){
-      if(this.locX < 0) this.speedX = -this.speedX;
-      if(this.locX > width) this.speedX = -this.speedX;
-      if(this.locY < 0) this.speedY = -this.speedY;
-      if(this.locY > height) this.speedY = -this.speedY;
-   }
+  //checkEdges() reverses speed when the ball touches an edge
+  this.checkEdges = function(){
+    if(this.locX < 0) this.speedX = -this.speedX;
+    if(this.locX > width) this.speedX = -this.speedX;
+    if(this.locY < 0) this.speedY = -this.speedY;
+    if(this.locY > height) this.speedY = -this.speedY;
+  }
 
-    // render() draws the ball at the new location
-   this.render = function(){
-      fill(this.col);
-      ellipse(this.locX, this.locY, rad, rad);
-   }
+  // render() draws the ball at the new location
+  this.render = function(){
+    fill(11, 89, 33);
+    ellipse(this.loc.x, this.loc.y, this.rad, this.rad);
+  }
 
 }
