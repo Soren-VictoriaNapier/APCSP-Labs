@@ -3,7 +3,6 @@ var snake;
 var food;
 var segments;
 var w = 20;
-var h = 15;
 var cols, rows;
 //  The setup function function is called once when your program begins
 function setup() {
@@ -19,8 +18,9 @@ function setup() {
   var loc = createVector(y, x);
   var vel = createVector(0, 0);
   snake = new Snake(loc, vel);
-  var u = floor(random(cols))*w;
-  var v = floor(random(rows))*w;
+  var o = floor(random(cols))*w;
+  var p = floor(random(rows))*w;
+  food = new Food(createVector(o, p));
 //snake = new Snake(createVector(width/2, height/2, createVector(1, 0)));//
   food.pickLoc();
 }
