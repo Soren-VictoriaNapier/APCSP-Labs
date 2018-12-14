@@ -1,7 +1,7 @@
 //global variables//
 var snake;
 var food;
-var segments;
+//var segments;
 var w = 20;
 var cols, rows;
 //  The setup function function is called once when your program begins
@@ -12,12 +12,13 @@ function setup() {
   frameRate(10);
   cols = floor(width/w);
   rows = floor (height/w);
+  //  create a snake
   var x = floor(random(cols))*w;
   var y = floor(random(rows))*w;
-
   var loc = createVector(y, x);
   var vel = createVector(0, 0);
   snake = new Snake(loc, vel);
+  //  create a food object
   var o = floor(random(cols))*w;
   var p = floor(random(rows))*w;
   food = new Food(createVector(o, p));
